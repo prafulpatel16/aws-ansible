@@ -1,0 +1,22 @@
+---
+- name: Read group from CSV file and return a dictionary
+  read_csv:
+    path: /mnt/d/cloud-devops/ansible/aws-ansible/groups.csv
+  register: grouplist
+    
+- name: create IAM groups
+  iam:
+    iam_type: group
+    name: "{{ group.groupname }}"
+    state: present
+#        access_key_state: create
+
+#    - debug:
+#        msg: >-
+#          {{ user.name }} and password is {{ user.password }} and group is {{
+#          user.group }}
+  loop: "{{ grouplist.list }}"
+  loop_control:
+    loop_var: group
+      
+       

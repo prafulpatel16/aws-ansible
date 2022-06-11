@@ -1,0 +1,33 @@
+---  
+- hosts: localhost
+  vars_files:
+    - vars/main.yml 
+  gather_facts: no    
+  connection: local 
+  tasks:
+    - name: create IAM Users
+      iam:
+        iam_type: user
+        name: "{{ item }}"
+        state: present
+        password: "Test@12345678"
+        access_key_state: create
+      loop:
+        - jcleese
+        - mpython
+
+    - name: create IAM Groups
+      iam:
+        iam_type: group
+        name: "{{ item }}"
+        state: present
+      loop:
+        - Mario
+        - Luigi
+      register: new_groups
+      users: 
+        - jcleese
+        - mpython  
+
+
+

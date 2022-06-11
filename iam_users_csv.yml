@@ -1,0 +1,23 @@
+# Example CSV file with header
+#
+#  user,group,password
+#  jane.doe,DBA,ChangeMe123456!
+#  michael.scott,NetworkAdmin,ChangeMe123456!
+#  barbara.brown,CloudAdmin,ChangeMe123456!
+#  brian.garcia,LinuxAdmin,ChangeMe123456!
+
+
+# Read a CSV file and access user 
+---  
+- hosts: localhost  
+  gather_facts: no    
+  connection: local
+  tasks: 
+     - name: Read users from CSV file and return a list
+       community.general.read_csv:
+         path: users.csv
+         fieldnames: user,group,password
+         delimiter: ';'
+       register: users
+       delegate_to: localhost
+

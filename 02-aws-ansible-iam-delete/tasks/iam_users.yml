@@ -1,0 +1,24 @@
+# Ansible Playbook
+# Purpose: To Delete an AWS Users with Existing Group automated way by reading CSV file through Ansible
+# Date & Time: June 14, 2022 
+# Author: Praful Patel
+
+# ------------------------------------------
+---
+- name: Read users from CSV file and return a dictionary
+  read_csv:
+    path: /mnt/d/cloud-devops/ansible/aws-ansible/02-aws-ansible-iam-delete/users.csv
+  register: userlist
+    
+
+- name: Delete IAM Users from aws 
+  iam:
+    iam_type: user
+    name: "{{ user.name }}"
+    password: "{{ user.password }}"
+    state: absent
+    groups: "{{ user.group }}"
+  loop: "{{ userlist.list }}"
+  loop_control:
+    loop_var: user
+       

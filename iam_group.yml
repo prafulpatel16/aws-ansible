@@ -1,0 +1,13 @@
+---  
+- hosts: localhost
+  vars_files:
+    - vars/main.yml 
+  gather_facts: no    
+  connection: local 
+  tasks:
+    - name: create IAM group admin 
+      iam:
+        iam_type: group
+        name: SecurityAdmin
+        state: present
+

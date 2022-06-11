@@ -1,0 +1,21 @@
+# Ansible Playbook
+# Purpose: This is a common playbook file which will call to multiple tasks from /tasks folder
+# Action: To Delete the resources from aws cloud 
+# Date & Time: June 14, 2022
+# Author: Praful Patel 
+# ------------------------------------------
+
+- name: Read users from CSV file and delete users and group from aws
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  tasks:
+    - include: tasks/iam_users.yml
+      tags: user
+    - include: tasks/iam_group.yml
+      tags: group
+
+
+
+
+      

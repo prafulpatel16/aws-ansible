@@ -1,0 +1,21 @@
+# Type: Ansible Task
+# Purpose: To Create an AWS Groups automated way by reading CSV file through Ansible
+# Date & Time: June 14, 2022 
+# Author: Praful Patel
+# ------------------------------------------
+---
+- name: Read group from CSV file and return a dictionary
+  read_csv:
+    path: /mnt/d/cloud-devops/ansible/aws-ansible/01-aws-ansible-iam-create/groups.csv
+  register: grouplist
+    
+- name: Create IAM groups in aws cloud
+  iam:
+    iam_type: group
+    name: "{{ group.groupname }}"
+    state: present
+  loop: "{{ grouplist.list }}"
+  loop_control:
+    loop_var: group
+      
+       

@@ -1,0 +1,47 @@
+---  
+- hosts: localhost
+      temp_pass: ChangeMe123456!
+      user1: jane.doe
+      user2: michael.scott
+      user3: barbara.brown
+      user4: brian.garcia
+      group1: DBA
+      group2: NetworkAdmin
+      group3: CloudAdmin
+      group4: LinuxAdmin
+        
+  gather_facts: no    
+  connection: local 
+  tasks:
+    - name: create IAM users 
+      iam:
+        iam_type: user
+        name: "{{ item }}"
+        state: present
+      loop:
+        - "{{ user1 }}"
+        - "{{ user2 }}"
+        - "{{ user3 }}"
+        - "{{ user3 }}"
+
+    - name: create user's password
+      command: aws iam create-login-profile --user-name "{{ item.name }}" --password "{{ item.pass }}" --password-reset-required
+      loop: 
+         - { name: "{{ user1 }}", pass: "{{ temp_pass }}" }
+         - { name: "{{ user2 }}", pass: "{{ temp_pass }}" }
+         - { name: "{{ user3 }}", pass: "{{ temp_pass }}" }
+         - { name: "{{ user4 }}", pass: "{{ temp_pass }}" }
+       
+    - name: create group and add existing users as members
+      iam:
+        iam_type: group
+        name: "{{ item.name }}"
+        state: present
+        users: "{{ item.members }}"
+      loop: 
+        - { name: "{{ group1 }}", members: ["{{ user1 }}"] }
+        - { name: "{{ group2 }}", members: ["{{ user2 }}"] }
+        - { name: "{{ group3 }}", members: ["{{ user3 }}"] }
+        - { name: "{{ group4 }}", members: ["{{ user4 }}"] }
+      tags:
+        - iam_group_new_members   

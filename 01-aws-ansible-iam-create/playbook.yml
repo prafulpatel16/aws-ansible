@@ -1,0 +1,20 @@
+# Type: Main Ansible Playbook
+# Purpose: This is a common playbook file which will call to multiple tasks from /tasks folder 
+# Attachments: Two CSV data files attached; users.csv & groups.csv
+# Author: Praful Patel
+# Date & Time: June 14, 2022 
+# ------------------------------------------
+
+- name: Read users from CSV file and create users and group 
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  tasks:
+    - include: tasks/iam_group.yml
+      tags: group
+    - include: tasks/iam_users.yml
+      tags: user
+
+
+
+      

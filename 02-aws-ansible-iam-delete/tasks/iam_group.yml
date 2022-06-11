@@ -1,0 +1,21 @@
+# Type: Ansible Playbook Task
+# Purpose: To Delete an AWS Groups automated way by reading CSV file through Ansible
+# Author: Praful Patel
+# Date & Time: June 14, 2022 
+# ------------------------------------------
+---
+- name: Read group from CSV file and return a dictionary
+  read_csv:
+    path: /mnt/d/cloud-devops/ansible/aws-ansible/02-aws-ansible-iam-delete/groups.csv
+  register: grouplist
+    
+- name: Delete IAM groups from aws
+  iam:
+    iam_type: group
+    name: "{{ group.groupname }}"
+    state: absent
+  loop: "{{ grouplist.list }}"
+  loop_control:
+    loop_var: group
+      
+       

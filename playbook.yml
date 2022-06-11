@@ -1,0 +1,13 @@
+- name: Read users from CSV file and create users and group 
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  tasks:
+    - include: tasks/iam_group_csv.yml
+      tags: group
+    - include: tasks/iam_csv1.yml
+      tags: user
+
+
+
+      
