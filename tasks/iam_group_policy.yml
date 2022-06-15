@@ -1,0 +1,12 @@
+---  
+- name: Attach Policy to groups
+  iam_policy:
+    iam_type: group
+    iam_name: "{{ item.created_group.group_name }}"
+    policy_name: "READ-ONLY"
+    policy_document: D:\cloud-devops\ansible\aws-ansible\03-aws-ansible-policy-create\readonlyPolicy.json
+    state: present
+  with_items: "{{ new_groups.results }}"
+  
+
+       

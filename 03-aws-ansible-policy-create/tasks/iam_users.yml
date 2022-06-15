@@ -1,6 +1,6 @@
-# Type: Ansible Playbook Task - Create New Users,Password and attach to Group
+# Type: Ansible Playbook Task
 # Purpose: To Create an AWS Users and associate then with Existing Group automated way by reading CSV file through Ansible
-# Date & Time: June 10, 2022 
+# Date & Time: June 14, 2022 
 # Author: Praful Patel
 # ------------------------------------------
 ---
@@ -9,6 +9,7 @@
     path: /mnt/d/cloud-devops/ansible/aws-ansible/01-aws-ansible-iam-create/users.csv
   register: userlist
     
+
 - name: Create IAM Users in aws cloud
   iam:
     iam_type: user

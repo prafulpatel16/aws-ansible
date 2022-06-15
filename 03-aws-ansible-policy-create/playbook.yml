@@ -12,10 +12,13 @@
   tasks:
     - include: tasks/iam_group.yml
       tags: group
-    - include: tasks/iam_group_policy.yml
-      tags: policy      
     - include: tasks/iam_users.yml
       tags: user
+    - include: tasks/iam_group_policy.yml
+      tags: policy
+
+
+
 
 
       

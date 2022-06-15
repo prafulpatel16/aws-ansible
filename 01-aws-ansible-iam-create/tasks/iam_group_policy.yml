@@ -1,0 +1,19 @@
+# Type: Ansible Playbook Task - Attach Policy to Group
+# Purpose: To Create an AWS Group Policy and attach to User Group according to permissions
+# Date & Time: June 10, 2022 
+# Author: Praful Patel
+# ------------------------------------------
+---      
+- name: Attach policy to group
+  iam_policy:
+    iam_type: group
+    iam_name: "{{ item.group.groupname }}"
+    policy_name: "readonlyPolicy"
+    policy_json: "{{ lookup('template', '/mnt/d/cloud-devops/ansible/aws-ansible/01-aws-ansible-iam-create/template/readonlyPolicy.json') }}" 
+    state: present
+  loop: "{{ new_groups.results }}"
+
+ 
+    
+   
+       

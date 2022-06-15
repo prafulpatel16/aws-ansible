@@ -1,6 +1,6 @@
-# Type: Ansible Playbook Task - Create New Grpups
+# Type: Ansible Playbook Task
 # Purpose: To Create an AWS Groups automated way by reading CSV file through Ansible
-# Date & Time: June 10, 2022 
+# Date & Time: June 14, 2022 
 # Author: Praful Patel
 # ------------------------------------------
 ---
@@ -17,5 +17,13 @@
   loop: "{{ grouplist.list }}"
   loop_control:
     loop_var: group
-  register: new_groups       
-  
+  register: new_groups    
+       
+- name: Attach policy
+  iam_policy:
+    iam_type: group
+    iam_name: "{{ item.group.groupname }}"
+    policy_name: "readonlyPolicy"
+    policy_json: "{{ lookup('template', '/mnt/d/cloud-devops/ansible/aws-ansible/03-aws-ansible-policy-create/template/readonlyPolicy.json') }}" 
+    state: present
+  loop: "{{ new_groups.results }}"
